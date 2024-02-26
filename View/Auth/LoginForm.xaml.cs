@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
 using ResidentialRegistration.Storage;
+using ResidentialRegistration.View.Main;
 
 namespace ResidentialRegistration.View.Auth
 {
@@ -16,21 +17,19 @@ namespace ResidentialRegistration.View.Auth
         }
 
         #region Смена темы
-        public bool isDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
-                
+        private readonly PaletteHelper paletteHelper = new PaletteHelper();         
         private void toggleTheme(object sender, RoutedEventArgs e)  
         {
             ITheme theme = paletteHelper.GetTheme();
 
-            if (isDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
+            if (DarkTheme.isDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
             {
-                isDarkTheme = false;
+                DarkTheme.isDarkTheme = false;
                 theme.SetBaseTheme(Theme.Light);
             }
             else
             {
-                isDarkTheme = true;
+                DarkTheme.isDarkTheme = true;
                 theme.SetBaseTheme(Theme.Dark);
             }
             paletteHelper.SetTheme(theme);
@@ -42,11 +41,13 @@ namespace ResidentialRegistration.View.Auth
             Application.Current.Shutdown();
         }
 
+        #region Перетаскивание окна
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+        #endregion
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -58,9 +59,9 @@ namespace ResidentialRegistration.View.Auth
             if (isAuth)
             {
                 AuthManager.CurrentUsername = username;
-
+                MainWindow mainWindow = new MainWindow();
                 this.Hide();
-
+                mainWindow.Show();
             }
             else
             {

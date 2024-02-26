@@ -23,14 +23,17 @@ namespace ResidentialRegistration.Storage
                 sqlConnection.Open();
             }
         }
+
+        #region Проверка при входе (регистр учитывается)
         public bool Check(string username, string password)
         {
             Connection();
-            SqlCommand command = new SqlCommand($"SELECT COUNT(*) FROM Account WHERE username='{username}' AND Password='{password}'", sqlConnection);
+            SqlCommand command = new SqlCommand($"SELECT COUNT(*) FROM Users WHERE Login='{username}' COLLATE Cyrillic_General_CS_AS AND Password='{password}' COLLATE Cyrillic_General_CS_AS", sqlConnection);
             int result = (int)command.ExecuteScalar();
             Connection();
 
             return result > 0;
         }
+        #endregion
     }
 }
