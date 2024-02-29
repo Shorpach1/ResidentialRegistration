@@ -94,6 +94,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Service\PasswordEncoder.cs" />
+    <Compile Include="Service\ValidationFileds.cs" />
     <Compile Include="Storage\AuthManager.cs" />
     <Compile Include="Storage\DarkTheme.cs" />
     <Compile Include="Storage\Database.cs" />

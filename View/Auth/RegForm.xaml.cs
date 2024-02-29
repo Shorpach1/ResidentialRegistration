@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using ResidentialRegistration.Service;
 using ResidentialRegistration.Storage;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace ResidentialRegistration.View.Auth
 {
     public partial class RegForm : Window
     {
+        ValidationFileds validationFileds = new ValidationFileds();
+
         public RegForm()
         {
             InitializeComponent();
@@ -43,14 +46,38 @@ namespace ResidentialRegistration.View.Auth
         }
         #endregion
 
+        #region Кнопка регистрации
         private void RegBtn_Click(object sender, RoutedEventArgs e)
         {
+            string username = txtUsername.Text;
+            string firstPassword = txtPassword.Password;
+            string secondPassword = txtPasswordRepeat.Password;
+            string surname = txtSurname.Text;
+            string firstName = txtName.Text;
+            string middleName = txtMiddlename.Text;
+            bool isAdmin = (bool)AdminBox.IsChecked;
+            string role = validationFileds.ReturnRole(isAdmin);
 
+            if (validationFileds.ValidateFields(username, firstPassword, secondPassword, surname, firstName, middleName))
+            {
+                Database database = new Database();
+                if (database.CountUsersWithLogin(username) == 0)
+                {
+                    database.RegisterAccount(username, firstPassword, role, surname, firstName, middleName);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Пользователь с таким логином уже существует!");
+                    return;
+                }
+            }
         }
 
         private void btn_exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+        #endregion
     }
 }

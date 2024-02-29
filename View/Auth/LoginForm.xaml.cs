@@ -49,6 +49,7 @@ namespace ResidentialRegistration.View.Auth
         }
         #endregion
 
+        #region Кнопка входа
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUsername.Text;
@@ -68,5 +69,6 @@ namespace ResidentialRegistration.View.Auth
                 MessageBox.Show("Неверный логин или пароль");
             }
         }
+        #endregion 
     }
 }
