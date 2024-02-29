@@ -16,6 +16,8 @@ namespace ResidentialRegistration.View.Main
             InitializeComponent();
             UpdateTheme();
             themeToggle.IsChecked = DarkTheme.isDarkTheme;
+
+
         }
 
         #region Перетаскивание окна

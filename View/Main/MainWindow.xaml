@@ -26,6 +26,7 @@
                 </materialDesign:PopupBox>
                 <Button Margin="0 20 0 0 " x:Name="RegFormBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
                         Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Новый пользователь" Click="RegFormBtn_Click"/>
+                
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>
