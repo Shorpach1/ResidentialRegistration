@@ -11,13 +11,15 @@ namespace ResidentialRegistration.View.Main
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Database database = new Database();
+
         public MainWindow()
         {
             InitializeComponent();
             UpdateTheme();
             themeToggle.IsChecked = DarkTheme.isDarkTheme;
 
-
+            database.ReadCitizen(CitizenGrid);
         }
 
         #region Перетаскивание окна

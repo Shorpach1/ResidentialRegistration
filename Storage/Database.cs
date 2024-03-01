@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace ResidentialRegistration.Storage
 {
@@ -13,6 +14,9 @@ namespace ResidentialRegistration.Storage
     {
         static string connection = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Residential_Registration_Database;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
         SqlConnection sqlConnection = new SqlConnection(connection);
+
+        private string selectCitizen = $"select * from Citizens";
+
         public void Connection()
         {
             if (sqlConnection.State == ConnectionState.Open)
@@ -68,6 +72,27 @@ namespace ResidentialRegistration.Storage
         }
         #endregion
 
+        public DataTable Select(string query)
+        {
+            SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable data = new DataTable();
+            adapter.Fill(data);
+            return data;
+        }
+
+        public void Select(string query, DataGrid dataGrid)
+        {
+            Connection();
+            SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            dataGrid.ItemsSource = dataTable.DefaultView;
+            Connection();
+        }
+
         public void Update(string query)
         {
             if (sqlConnection.State == ConnectionState.Closed)
@@ -76,5 +101,13 @@ namespace ResidentialRegistration.Storage
             command.ExecuteNonQuery();
             Connection();
         }
+
+        #region Вывод в таблицу
+        public void ReadCitizen(DataGrid grid)
+        {
+            Select(selectCitizen, grid);
+        }
+        #endregion
+
     }
 }

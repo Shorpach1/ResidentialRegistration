@@ -7,11 +7,12 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="760" Width="1000"
+        Title="MainWindow" Height="900" Width="1400"
         Background="{x:Null}"
         AllowsTransparency="True"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
@@ -24,9 +25,74 @@
                         <Button x:Name="btn_exit" Content="Выйти" Click="exitApp"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <Button Margin="0 20 0 0 " x:Name="RegFormBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
-                        Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Новый пользователь" Click="RegFormBtn_Click"/>
-                
+                <!--<Button Margin="0 20 0 0 " x:Name="RegFormBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Новый пользователь" Click="RegFormBtn_Click"/>-->
+                <TabControl materialDesign:ColorZoneAssist.Mode="Standard" VerticalContentAlignment="Center" materialDesign:ElevationAssist.Elevation="Dp4" Style="{StaticResource MaterialDesignNavigationRailTabControl}" 
+                            Height="720" Margin="0 20 0 0">
+                    <TabItem Width="90">
+                        <TabItem.Header>
+                            <StackPanel Width="auto" Height="auto">
+                                <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="Account" />
+                                <TextBlock HorizontalAlignment="Center" Text="Граждане" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <DataGrid Margin="10 0 10 0" Visibility="Visible" x:Name="CitizenGrid" AutoGenerateColumns="false" CanUserResizeColumns="False" CanUserAddRows="False" 
+                                  CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single" SelectionUnit="FullRow" CanUserResizeRows="False" 
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Номер" Width="100" Binding="{Binding CitizenID}" />
+                                <DataGridTextColumn Header="Фамилия" Width="*"  Binding="{Binding LastName}"/>
+                                <DataGridTextColumn Header="Имя" Width="*"  Binding="{Binding FirstName}"/>
+                                <DataGridTextColumn Header="Отчество" Width="*"  Binding="{Binding MiddleName}"/>
+                                <DataGridTextColumn Header="Дата рождения" Width="*"  Binding="{Binding DateOfBirth, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Пол" Width="100"  Binding="{Binding Gender}"/>
+                                <DataGridTextColumn Header="Место рождения" Width="*"  Binding="{Binding PlaceOfBirth}"/>
+                                <DataGridTextColumn Header="Доп. Информация" Width="*"  Binding="{Binding OtherPersonalData}"/>
+                            </DataGrid.Columns>
+                            <!--<DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem x:Name="Add" Header="Добавить" Click="OrderButtontetet_Click"/>
+                                    <MenuItem x:Name="DeleteOrder" Header="Удалить" Click="DeleteOrder_Click"/>
+                                    <MenuItem x:Name="FiltrationOrder" Header="Фильтрация" Click="FiltrationOrder_Click"/>
+                                    <MenuItem x:Name="SearchOrder" Header="Поиск" Click="SearchOrder_Click"/>
+                                    <MenuItem x:Name="OrderCancel" Header="Отменить" Click="OrderCancel_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>-->
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem Width="90">
+                        <TabItem.Header>
+                            <StackPanel Width="auto" Height="auto">
+                                <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="FileDocument" />
+                                <TextBlock HorizontalAlignment="Center" Text="Документы" />
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem Width="90">
+                        <TabItem.Header>
+                            <StackPanel Width="auto" Height="auto">
+                                <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="HomeCity" />
+                                <TextBlock HorizontalAlignment="Center" Text="Жилые помещения" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem Width="90">
+                        <TabItem.Header>
+                            <StackPanel Width="auto" Height="auto">
+                                <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="TextBox" />
+                                <TextBlock HorizontalAlignment="Center" Text="Адрестные листки" TextWrapping="Wrap" TextAlignment="Center" Width="100" />
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Width="auto" Height="auto">
+                                <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="TextBox" />
+                                <TextBlock HorizontalAlignment="Center" Text="Талоны миграции" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                </TabControl>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>
