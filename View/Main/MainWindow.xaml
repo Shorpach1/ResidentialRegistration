@@ -28,7 +28,7 @@
                 <!--<Button Margin="0 20 0 0 " x:Name="RegFormBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
                         Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Новый пользователь" Click="RegFormBtn_Click"/>-->
                 <TabControl materialDesign:ColorZoneAssist.Mode="Standard" VerticalContentAlignment="Center" materialDesign:ElevationAssist.Elevation="Dp4" Style="{StaticResource MaterialDesignNavigationRailTabControl}" 
-                            Height="720" Margin="0 20 0 0">
+                            Height="720" Margin="0 20 0 0" SelectionChanged="TabControl_SelectionChanged">
                     <TabItem Width="90">
                         <TabItem.Header>
                             <StackPanel Width="auto" Height="auto">
@@ -67,6 +67,19 @@
                                 <TextBlock HorizontalAlignment="Center" Text="Документы" />
                             </StackPanel>
                         </TabItem.Header>
+                        <DataGrid Margin="10 0 10 0" Visibility="Visible" x:Name="IssuedDocumentsGrid" AutoGenerateColumns="false" CanUserResizeColumns="False" CanUserAddRows="False" 
+                                  CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single" SelectionUnit="FullRow" CanUserResizeRows="False" 
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID документа" Width="100" Binding="{Binding DocumentID}" />
+                                <DataGridTextColumn Header="Тип" Width="100" Binding="{Binding DocumentTypeID}" />
+                                <DataGridTextColumn Header="Номер документа" Width="*"  Binding="{Binding DocumentNumber}"/>
+                                <DataGridTextColumn Header="Дата выдачи" Width="*"  Binding="{Binding DateOfIssue, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Органы, выдавшие документ" Width="*"  Binding="{Binding IssuingAuthority}"/>
+                                <DataGridTextColumn Header="Владелец" Width="*"  Binding="{Binding DocumentOwnerID}"/>
+                                <DataGridTextColumn Header="Доп. сведения" Width="*"  Binding="{Binding AdditionalInformation}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </TabItem>
                     <TabItem Width="90">
                         <TabItem.Header>
@@ -75,14 +88,59 @@
                                 <TextBlock HorizontalAlignment="Center" Text="Жилые помещения" TextWrapping="Wrap" TextAlignment="Center"/>
                             </StackPanel>
                         </TabItem.Header>
+                        <DataGrid Margin="10 0 10 0" Visibility="Visible" x:Name="ResidentialUnitGrid" AutoGenerateColumns="false" CanUserResizeColumns="False" CanUserAddRows="False" 
+          CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single" SelectionUnit="FullRow" CanUserResizeRows="False" 
+          IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID помещения" Width="100" Binding="{Binding UnitID}" />
+                                <DataGridTextColumn Header="Адрес" Width="*"  Binding="{Binding Address}"/>
+                                <DataGridTextColumn Header="Площадь" Width="*"  Binding="{Binding Area}"/>
+                                <DataGridTextColumn Header="Кол-во комнат" Width="*"  Binding="{Binding NumberOfRooms}"/>
+                                <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding LastName}"/>
+                                <DataGridTextColumn Header="Роль" Width="*"  Binding="{Binding ifOwner}"/>
+                                <DataGridTextColumn Header="Дата постройки" Width="*"  Binding="{Binding DateOfConstruction, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Прочие хар-ки" Width="*"  Binding="{Binding OtherCharacteristics}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </TabItem>
                     <TabItem Width="90">
                         <TabItem.Header>
                             <StackPanel Width="auto" Height="auto">
                                 <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="TextBox" />
-                                <TextBlock HorizontalAlignment="Center" Text="Адрестные листки" TextWrapping="Wrap" TextAlignment="Center" Width="100" />
+                                <TextBlock HorizontalAlignment="Center" Text="Ад.листки прибытия" TextWrapping="Wrap" TextAlignment="Center" Width="100" />
                             </StackPanel>
                         </TabItem.Header>
+                        <DataGrid Margin="10 0 10 0" Visibility="Visible" x:Name="AddressArrivalSheetsGrid" AutoGenerateColumns="false" CanUserResizeColumns="False" CanUserAddRows="False" 
+          CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single" SelectionUnit="FullRow" CanUserResizeRows="False" 
+          IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID ад.листка" Width="100" Binding="{Binding AddressArrivalSheetID}" />
+                                <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
+                                <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding ArrivalDepartureAddress}"/>
+                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfArrivalDeparture, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Примечание" Width="*"  Binding="{Binding Notes}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem Width="90">
+                        <TabItem.Header>
+                            <StackPanel Width="auto" Height="auto">
+                                <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="TextBox" />
+                                <TextBlock HorizontalAlignment="Center" Text="Ад.листки убытия" TextWrapping="Wrap" TextAlignment="Center" Width="100" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <DataGrid Margin="10 0 10 0" Visibility="Visible" x:Name="AddressedDepartureSheetGrid" AutoGenerateColumns="false" CanUserResizeColumns="False" CanUserAddRows="False" 
+CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single" SelectionUnit="FullRow" CanUserResizeRows="False" 
+IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID ад.листка" Width="100" Binding="{Binding AddressedDepartureSheetID}" />
+                                <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
+                                <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding ArrivalDepartureAddress}"/>
+                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfArrivalDeparture, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Прошлое место жительства" Width="*"  Binding="{Binding AddressOfFormerResidence}"/>
+                                <DataGridTextColumn Header="Примечание" Width="*"  Binding="{Binding Notes}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </TabItem>
                     <TabItem>
                         <TabItem.Header>
@@ -91,6 +149,17 @@
                                 <TextBlock HorizontalAlignment="Center" Text="Талоны миграции" TextWrapping="Wrap" TextAlignment="Center"/>
                             </StackPanel>
                         </TabItem.Header>
+                        <DataGrid Margin="10 0 10 0" Visibility="Visible" x:Name="TalonToTheASoAGrid" AutoGenerateColumns="false" CanUserResizeColumns="False" CanUserAddRows="False" 
+                            CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single" SelectionUnit="FullRow" CanUserResizeRows="False" 
+                            IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID талона" Width="100" Binding="{Binding TalonID}" />
+                                <DataGridTextColumn Header="ID ад.листка" Width="*" Binding="{Binding AddressArrivalSheetID}" />
+                                <DataGridTextColumn Header="Цель приезда" Width="*" Binding="{Binding PurposeOfArrival}" />
+                                <DataGridTextColumn Header="Другая причина" Width="*"  Binding="{Binding AnotherReason}"/>
+                                <DataGridTextColumn Header="Срок" Width="*"  Binding="{Binding ArrivalDate}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </TabItem>
                 </TabControl>
             </StackPanel>

@@ -2,6 +2,7 @@
 using ResidentialRegistration.Storage;
 using ResidentialRegistration.View.Auth;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace ResidentialRegistration.View.Main
@@ -66,5 +67,38 @@ namespace ResidentialRegistration.View.Main
             RegForm regForm = new RegForm();
             regForm.ShowDialog();
         }
+
+        #region Смена таблиц
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            TabControl tabControl = sender as TabControl;
+            if (tabControl != null)
+            {
+                int selectedIndex = tabControl.SelectedIndex;
+                switch (selectedIndex)
+                {
+                    case 0:
+                        database.ReadCitizen(CitizenGrid);
+                        break;
+                    case 1:
+                        database.ReadDocuments(IssuedDocumentsGrid);
+                        break;
+                    case 2:
+                        database.ReadResidentialUnit(ResidentialUnitGrid);
+                        break;
+                    case 3:
+                        database.ReadAAS(AddressArrivalSheetsGrid);
+                        break;
+                    case 4:
+                        database.ReadADS(AddressedDepartureSheetGrid);
+                        break;
+                    case 5:
+                        database.ReadTalon(TalonToTheASoAGrid);
+                        break;
+                }
+            }
+        }
+        #endregion
     }
+
 }

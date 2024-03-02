@@ -16,6 +16,21 @@ namespace ResidentialRegistration.Storage
         SqlConnection sqlConnection = new SqlConnection(connection);
 
         private string selectCitizen = $"select * from Citizens";
+        
+        private string selectDocuments = $"select IssuedDocuments.DocumentID, IssuedDocuments.DocumentTypeID, IssuedDocuments.DocumentNumber, IssuedDocuments.DateOfIssue," +
+            $"IssuedDocuments.IssuingAuthority, Citizens.LastName, IssuedDocuments.AdditionalInformation from IssuedDocuments, Citizens where IssuedDocuments.CitizenID = Citizens.CitizenID";
+        
+        private string selectResidentialUnit = $"select ResidentialUnits.UnitID, ResidentialUnits.Address, ResidentialUnits.Area, ResidentialUnits.NumberOfRooms, Citizens.LastName, ResidentialUnits.ifOwner ,ResidentialUnits.DateOfConstruction, " +
+            $"ResidentialUnits.OtherCharacteristics from ResidentialUnits, Citizens where ResidentialUnits.CitizenID = Citizens.CitizenID";
+        
+        private string selectAAS = $"select AddressArrivalSheets.AddressArrivalSheetID, Citizens.LastName, AddressArrivalSheets.DepartureAddress," +
+            $"AddressArrivalSheets.DateOfDeparture, AddressArrivalSheets.RegistrationAuthority from AddressArrivalSheets, Citizens where AddressArrivalSheets.CitizenID = Citizens.CitizenID";
+       
+        private string selectTalon = $"select * from TalonToTheASoA";
+        
+        private string selectADS = $"select AddressedDepartureSheet.AddressedDepartureSheetID, Citizens.LastName, AddressedDepartureSheet.DepartureAddress," +
+            $"AddressedDepartureSheet.DateOfDeparture, AddressedDepartureSheet.AddressOfFormerResidence, AddressedDepartureSheet.PlaceOfArrival from AddressedDepartureSheet, Citizens " +
+            $"where AddressedDepartureSheet.CitizenID = Citizens.CitizenID";
 
         public void Connection()
         {
@@ -106,6 +121,31 @@ namespace ResidentialRegistration.Storage
         public void ReadCitizen(DataGrid grid)
         {
             Select(selectCitizen, grid);
+        }
+
+        public void ReadResidentialUnit(DataGrid grid)
+        {
+            Select(selectResidentialUnit, grid);
+        }
+
+        public void ReadDocuments(DataGrid grid)
+        {
+            Select(selectDocuments, grid);
+        }
+
+        public void ReadAAS(DataGrid grid)
+        {
+            Select(selectAAS, grid);
+        }
+
+        public void ReadADS(DataGrid grid)
+        {
+            Select(selectADS, grid);
+        }
+
+        public void ReadTalon(DataGrid grid)
+        {
+            Select(selectTalon, grid);
         }
         #endregion
 
