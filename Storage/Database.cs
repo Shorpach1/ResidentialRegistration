@@ -145,6 +145,8 @@ namespace ResidentialRegistration.Storage
         }
         #endregion
 
+        #region Работа с таблицой "Citizens"
+
         #region Добавление гражданина
         public void CreateCitizen(string surname, string name, string middlename, DateTime dateOfBirth, string gender, string placeOfBirth, string other)
         {
@@ -154,5 +156,21 @@ namespace ResidentialRegistration.Storage
         }
         #endregion
 
+        #region Удаление гражданина
+        public void DeleteCitizen(DataRowView selectedRow)
+        {
+            Update($"DELETE FROM Citizens Where CitizenID = {selectedRow.Row.ItemArray[0]}");
+        }
+        #endregion
+
+        #region Изменение гражданина
+        public void EditCitizen(long id,string surname, string name, string middlename, DateTime dateOfBirth, string gender, string placeOfBirth, string other)
+        {
+            Update($"UPDATE Citizens SET LastName = N'{surname}', FirstName = N'{name}', MiddleName = N'{middlename}', DateOfBirth = '{dateOfBirth.ToString("yyyy-MM-dd")}', Gender = N'{gender}', PlaceOfBirth = N'{placeOfBirth}', OtherPersonalData = N'{other}' " +
+                $"WHERE Citizens.CitizenID = {id}");
+        }
+        #endregion
+
+        #endregion
     }
 }

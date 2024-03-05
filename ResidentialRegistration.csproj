@@ -112,6 +112,9 @@
     <Compile Include="View\Auth\RegForm.xaml.cs">
       <DependentUpon>RegForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditPage\EditCititzenForm.xaml.cs">
+      <DependentUpon>EditCititzenForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Main\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Auth\RegForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditPage\EditCititzenForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
