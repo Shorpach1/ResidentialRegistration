@@ -47,6 +47,43 @@ namespace ResidentialRegistration.Service
         }
         #endregion
 
+        #region Проверка при добавлении гражданина
+        public bool ValidationCitizenAdd(string surname, string firstName, string middleName, DateTime dateOfBrith, string gender, string placeOfBrith)
+        {
+            if (!ValidationSurname(surname))
+            {
+                return false;
+            }
+
+            if (!ValidationFirstName(firstName))
+            {
+                return false;
+            }
+
+            if (!ValidationMiddleName(middleName))
+            {
+                return false;
+            }
+            
+            if (!ValiaditonDateOfBirth(dateOfBrith))
+            {
+                return false;
+            }
+
+            if (!ValidateNotEmpty(gender))
+            {
+                return false;
+            }
+
+            if (!ValidateBirthPlace(placeOfBrith))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
         #region На схожесть поролей
         public bool ValidationTwoPasswords(string firstPassword, string secondPassword)
         {
@@ -145,6 +182,48 @@ namespace ResidentialRegistration.Service
                 return "ROLE_USER";
         }
         #endregion
+
+        #region На дату рождения
+        public bool ValiaditonDateOfBirth(DateTime dateOfBrith)
+        {
+            if (dateOfBrith > DateTime.Today)
+            {
+                MessageBox.Show("Дата рождения не может быть позже сегодняшней даты!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На пустоту в "Пол"
+        public bool ValidateNotEmpty(string fieldValue)
+        {
+            if (string.IsNullOrWhiteSpace(fieldValue))
+            {
+                MessageBox.Show("Выберите пол");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На место рождения
+        public bool ValidateBirthPlace(string placeOfBrith)
+        {
+            string placeOfBrithPattern = @"^[a-zA-Zа-яА-Я0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(placeOfBrith, placeOfBrithPattern) || placeOfBrith.Length > 50)
+            {
+                MessageBox.Show("Некорректное место рождения. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
     }
 }
 

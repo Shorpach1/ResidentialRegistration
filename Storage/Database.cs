@@ -1,11 +1,7 @@
 ﻿using ResidentialRegistration.Service;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace ResidentialRegistration.Storage
@@ -146,6 +142,15 @@ namespace ResidentialRegistration.Storage
         public void ReadTalon(DataGrid grid)
         {
             Select(selectTalon, grid);
+        }
+        #endregion
+
+        #region Добавление гражданина
+        public void CreateCitizen(string surname, string name, string middlename, DateTime dateOfBirth, string gender, string placeOfBirth, string other)
+        {
+            string query = $"INSERT INTO Citizens (LastName, FirstName, MiddleName, DateOfBirth, Gender, PlaceOfBirth, OtherPersonalData) VALUES (N'{surname}', N'{name}', N'{middlename}', N'{dateOfBirth.ToString("yyyy-MM-dd")}', N'{gender}'," +
+                $" N'{placeOfBirth}', N'{other}' )";
+            Update(query);
         }
         #endregion
 

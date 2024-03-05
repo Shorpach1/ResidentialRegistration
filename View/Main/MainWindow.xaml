@@ -49,15 +49,15 @@
                                 <DataGridTextColumn Header="Место рождения" Width="*"  Binding="{Binding PlaceOfBirth}"/>
                                 <DataGridTextColumn Header="Доп. Информация" Width="*"  Binding="{Binding OtherPersonalData}"/>
                             </DataGrid.Columns>
-                            <!--<DataGrid.ContextMenu>
+                            <DataGrid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem x:Name="Add" Header="Добавить" Click="OrderButtontetet_Click"/>
-                                    <MenuItem x:Name="DeleteOrder" Header="Удалить" Click="DeleteOrder_Click"/>
+                                    <MenuItem x:Name="AddCitizen" Header="Добавить" Click="AddCitizen_Click"/>
+                                    <!--<MenuItem x:Name="DeleteOrder" Header="Удалить" Click="DeleteOrder_Click"/>
                                     <MenuItem x:Name="FiltrationOrder" Header="Фильтрация" Click="FiltrationOrder_Click"/>
                                     <MenuItem x:Name="SearchOrder" Header="Поиск" Click="SearchOrder_Click"/>
-                                    <MenuItem x:Name="OrderCancel" Header="Отменить" Click="OrderCancel_Click"/>
+                                    <MenuItem x:Name="OrderCancel" Header="Отменить" Click="OrderCancel_Click"/>-->
                                 </ContextMenu>
-                            </DataGrid.ContextMenu>-->
+                            </DataGrid.ContextMenu>
                         </DataGrid>
                     </TabItem>
                     <TabItem Width="90">

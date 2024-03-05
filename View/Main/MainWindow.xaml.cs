@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using ResidentialRegistration.Storage;
+using ResidentialRegistration.View.AddPage;
 using ResidentialRegistration.View.Auth;
 using System.Windows;
 using System.Windows.Controls;
@@ -99,6 +100,12 @@ namespace ResidentialRegistration.View.Main
             }
         }
         #endregion
+
+        private void AddCitizen_Click(object sender, RoutedEventArgs e)
+        {
+            AddCitizenForm addCitizenForm = new AddCitizenForm(CitizenGrid);
+            addCitizenForm.ShowDialog();
+        }
     }
 
 }
