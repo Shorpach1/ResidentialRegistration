@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ResidentialRegistration.CB;
+using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ResidentialRegistration.Service
@@ -65,7 +62,7 @@ namespace ResidentialRegistration.Service
                 return false;
             }
             
-            if (!ValiaditonDateOfBirth(dateOfBrith))
+            if (!ValiditonDateOfBirth(dateOfBrith))
             {
                 return false;
             }
@@ -76,6 +73,38 @@ namespace ResidentialRegistration.Service
             }
 
             if (!ValidateBirthPlace(placeOfBrith))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region Проверка при добавлении документа
+        public bool ValidationIssuedDocumentsAdd(CBDocumentType dtId, string docNum, DateTime dateOfIssue, string issuingAuthority, CBDocumentType citId)
+        {
+            if (!ValidationComboBoxItemDT(dtId))
+            {
+                return false;
+            }
+
+            if (!ValidateDocumentNumber(docNum))
+            {
+                return false;
+            }
+
+            if (!ValiditonDateOfIssue(dateOfIssue))
+            {
+                return false;
+            }
+
+            if (!ValidateIssuingAuthority(issuingAuthority))
+            {
+                return false;
+            }
+
+            if (!ValidationComboBoxItemC(citId))
             {
                 return false;
             }
@@ -184,7 +213,7 @@ namespace ResidentialRegistration.Service
         #endregion
 
         #region На дату рождения
-        public bool ValiaditonDateOfBirth(DateTime dateOfBrith)
+        public bool ValiditonDateOfBirth(DateTime dateOfBrith)
         {
             if (dateOfBrith > DateTime.Today)
             {
@@ -217,6 +246,75 @@ namespace ResidentialRegistration.Service
             if (!Regex.IsMatch(placeOfBrith, placeOfBrithPattern) || placeOfBrith.Length > 50)
             {
                 MessageBox.Show("Некорректное место рождения. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+
+        #region На выбор типа документа
+        public bool ValidationComboBoxItemDT(CBDocumentType combo)
+        {
+            if (combo == null)
+            {
+                MessageBox.Show("Выберите тип документа!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На выбор владельца
+        public bool ValidationComboBoxItemC(CBDocumentType combo)
+        {
+            if (combo == null)
+            {
+                MessageBox.Show("Выберите владельца!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+        #region На дату регистрации
+        public bool ValiditonDateOfIssue(DateTime dateOfIssue)
+        {
+            if (dateOfIssue > DateTime.Today)
+            {
+                MessageBox.Show("Дата регистрации не может быть позже сегодняшней даты!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На орган выдачи
+        public bool ValidateIssuingAuthority(string IssuingAuthority)
+        {
+            string IssuingAuthorityPattern = @"^[a-zA-Zа-яА-Я0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(IssuingAuthority, IssuingAuthorityPattern) || IssuingAuthority.Length > 50)
+            {
+                MessageBox.Show("Некорректное наименование органа выдачи. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На номер документа
+        public bool ValidateDocumentNumber(string DocumentNumber)
+        {
+            string DocumentNumberPattern = @"^\d{10}$";
+
+            if (!Regex.IsMatch(DocumentNumber, DocumentNumberPattern) )
+            {
+                MessageBox.Show("Некорректный номер документа. Номер документа должен состоять из 10 цифр");
                 return false;
             }
 

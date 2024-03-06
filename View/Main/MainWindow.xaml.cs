@@ -28,6 +28,24 @@ namespace ResidentialRegistration.View.Main
             themeToggle.IsChecked = DarkTheme.isDarkTheme;
 
             database.ReadCitizen(CitizenGrid);
+            database.ReadDocuments(IssuedDocumentsGrid);
+            database.ReadResidentialUnit(ResidentialUnitGrid);
+            database.ReadAAS(AddressArrivalSheetsGrid);
+            database.ReadADS(AddressedDepartureSheetGrid);
+            database.ReadTalon(TalonToTheASoAGrid);
+
+            if (AuthManager.CurrentUsername != null)
+            {
+                bool isAdmin = database.CheckAdmin(AuthManager.CurrentUsername);
+                if (!isAdmin)
+                {
+                    RegFormBtn.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    RegFormBtn.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         #region Перетаскивание окна
@@ -130,8 +148,6 @@ namespace ResidentialRegistration.View.Main
             }
         }
         #endregion
-
-
         #endregion
 
         #region Переключение таблиц
@@ -195,9 +211,55 @@ namespace ResidentialRegistration.View.Main
             TalonToTheASoAGrid.Visibility = Visibility.Visible;
         }
 
+
         #endregion
 
-        
+        #region Работа с таблицей "IssuedDocuments"
+        private void AddIssuedDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            AddIssuedDocumentsForm addIssuedDocumentsForm = new AddIssuedDocumentsForm(IssuedDocumentsGrid);
+            addIssuedDocumentsForm.ShowDialog();
+        }
+
+        private void DeleteIssuedDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedUssuedDocument = IssuedDocumentsGrid.SelectedItem as DataRowView;
+            if (selectedUssuedDocument != null)
+            {
+                try
+                {
+                    database.DeleteissuedDocument(selectedUssuedDocument);
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Удаление невозможно. Удалите связанные данные с этим гражданином!");
+                    return;
+                }
+
+                database.ReadDocuments(IssuedDocumentsGrid);
+            }
+            else
+            {
+                MessageBox.Show("Выберите поле для удаления!");
+            }
+        }
+
+        private void EditIssuedDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedRow = IssuedDocumentsGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                EditIssuedDocumentsForm issuedDocumentEdit = new EditIssuedDocumentsForm(IssuedDocumentsGrid, Convert.ToInt32(selectedRow.Row.ItemArray[0]), Convert.ToString(selectedRow.Row.ItemArray[1]),
+                    Convert.ToString(selectedRow.Row.ItemArray[2]), Convert.ToString(selectedRow.Row.ItemArray[3]), Convert.ToString(selectedRow.Row.ItemArray[4]),
+                    Convert.ToInt32(selectedRow.Row.ItemArray[5]), Convert.ToString(selectedRow.Row.ItemArray[6]));
+                issuedDocumentEdit.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для редактирования", "Ошибка", MessageBoxButton.OK);
+            }
+        }
+        #endregion
     }
 
 }

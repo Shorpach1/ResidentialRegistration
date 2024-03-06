@@ -1,4 +1,5 @@
-﻿using ResidentialRegistration.Service;
+﻿using ResidentialRegistration.CB;
+using ResidentialRegistration.Service;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,8 +14,8 @@ namespace ResidentialRegistration.Storage
 
         private string selectCitizen = $"select * from Citizens";
         
-        private string selectDocuments = $"select IssuedDocuments.DocumentID, IssuedDocuments.DocumentTypeID, IssuedDocuments.DocumentNumber, IssuedDocuments.DateOfIssue," +
-            $"IssuedDocuments.IssuingAuthority, Citizens.LastName, IssuedDocuments.AdditionalInformation from IssuedDocuments, Citizens where IssuedDocuments.CitizenID = Citizens.CitizenID";
+        private string selectDocuments = $"select IssuedDocuments.DocumentID, DocumentTypes.DocumentType, IssuedDocuments.DocumentNumber, IssuedDocuments.DateOfIssue," +
+            $"IssuedDocuments.IssuingAuthority, Citizens.CitizenID, IssuedDocuments.AdditionalInformation from IssuedDocuments, Citizens, DocumentTypes where IssuedDocuments.CitizenID = Citizens.CitizenID AND IssuedDocuments.DocumentTypeID = DocumentTypes.DocumentTypeID";
         
         private string selectResidentialUnit = $"select ResidentialUnits.UnitID, ResidentialUnits.Address, ResidentialUnits.Area, ResidentialUnits.NumberOfRooms, Citizens.LastName, ResidentialUnits.ifOwner ,ResidentialUnits.DateOfConstruction, " +
             $"ResidentialUnits.OtherCharacteristics from ResidentialUnits, Citizens where ResidentialUnits.CitizenID = Citizens.CitizenID";
@@ -27,6 +28,10 @@ namespace ResidentialRegistration.Storage
         private string selectADS = $"select AddressedDepartureSheet.AddressedDepartureSheetID, Citizens.LastName, AddressedDepartureSheet.DepartureAddress," +
             $"AddressedDepartureSheet.DateOfDeparture, AddressedDepartureSheet.AddressOfFormerResidence, AddressedDepartureSheet.PlaceOfArrival from AddressedDepartureSheet, Citizens " +
             $"where AddressedDepartureSheet.CitizenID = Citizens.CitizenID";
+
+        private string selectCitizenName = $"select CitizenID, LastName  + ' ' +  FirstName + ' ' +  MiddleName from Citizens";
+
+        private string selectDocumentType = $"select * from DocumentTypes";
 
         public void Connection()
         {
@@ -145,6 +150,34 @@ namespace ResidentialRegistration.Storage
         }
         #endregion
 
+        public void ReadDocumentTypeToComboBox(ComboBox box)
+        {
+            ComboBoxToTableDT(selectDocumentType, box);
+        }
+
+        public void ReadCitizenNameToCombobox(ComboBox box)
+        {
+            ComboBoxToTableDT(selectCitizenName, box);
+        }
+
+        public void ComboBoxToTableDT(string query, ComboBox box)
+        {
+            Connection();
+            SqlCommand command = new SqlCommand(query, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+
+            box.Items.Clear();
+            while (reader.Read())
+            {
+                CBDocumentType cbdt = new CBDocumentType();
+                cbdt.id = reader.GetInt32(0);
+                cbdt.name = reader.GetString(1).ToString();
+                box.Items.Add(cbdt);
+            }
+            reader.Close();
+            Connection();
+        }
+
         #region Работа с таблицой "Citizens"
 
         #region Добавление гражданина
@@ -171,6 +204,26 @@ namespace ResidentialRegistration.Storage
         }
         #endregion
 
+        #endregion
+
+        #region Работа с таблицей "IssuedDocuments"
+        public void CreateIssuedDocuments(CBDocumentType dtId, string docNum, DateTime dateOfIssue, string issuingAuthority, CBDocumentType citId, string other)
+        {
+            string query = $"INSERT INTO IssuedDocuments (DocumentTypeID, DocumentNumber, DateOfIssue, IssuingAuthority, CitizenID, AdditionalInformation) VALUES " +
+                $"('{dtId.id}','{docNum}', '{dateOfIssue.ToString("yyyy-MM-dd")}', N'{issuingAuthority}', '{citId.id}', N'{other}')";
+            Update(query);
+        }
+
+        public void DeleteissuedDocument(DataRowView selectedRow)
+        {
+            Update($"DELETE FROM IssuedDocuments Where DocumentID = {selectedRow.Row.ItemArray[0]}");
+        }
+
+        public void EditIssuedDocument(int id, CBDocumentType dtId, string docNum, DateTime dateOfIssue, string issuingAuthority, CBDocumentType citId, string other)
+        {
+            Update($"UPDATE IssuedDocuments SET DocumentTypeID = '{dtId.id}', DocumentNumber = '{docNum}', DateOfIssue = '{dateOfIssue.ToString("yyyy-MM-dd")}',IssuingAuthority = N'{issuingAuthority}', " +
+                $"CitizenID = '{citId.id}', AdditionalInformation = N'{other}' WHERE DocumentID = {id}");
+        }
         #endregion
     }
 }
