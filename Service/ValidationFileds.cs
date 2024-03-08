@@ -113,6 +113,43 @@ namespace ResidentialRegistration.Service
         }
         #endregion
 
+        #region Проверка при добавлении жилой площади
+        public bool ValidationResidentialUnitsAdd(string address, string area, string numOfRooms, CBDocumentType citId, DateTime date, string ifOwner)
+        {
+            if (!ValidateAddress(address))
+            {
+                return false;
+            }
+
+            if (!ValidateQuantity(area))
+            {
+                return false;
+            }
+
+            if (!ValidationNumOfRooms(numOfRooms))
+            {
+                return false;
+            }
+
+            if (!ValiditonDateOfConstruction(date))
+            {
+                return false;
+            }
+
+            if (!ValidateNotEmptyRU(ifOwner))
+            {
+                return false;
+            }
+
+            if (!ValidationComboBoxItemC(citId))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
         #region На схожесть поролей
         public bool ValidationTwoPasswords(string firstPassword, string secondPassword)
         {
@@ -253,7 +290,6 @@ namespace ResidentialRegistration.Service
         }
         #endregion
 
-
         #region На выбор типа документа
         public bool ValidationComboBoxItemDT(CBDocumentType combo)
         {
@@ -279,6 +315,7 @@ namespace ResidentialRegistration.Service
             return true;
         }
         #endregion
+
         #region На дату регистрации
         public bool ValiditonDateOfIssue(DateTime dateOfIssue)
         {
@@ -322,6 +359,93 @@ namespace ResidentialRegistration.Service
         }
         #endregion
 
+        #region На адрес
+        public bool ValidateAddress(string address)
+        {
+            string addressPattern = @"^[a-zA-Zа-яА-Я0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(address, addressPattern) || address.Length > 50)
+            {
+                MessageBox.Show("Некорректный адрес. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На дату постройки
+        public bool ValiditonDateOfConstruction(DateTime DateOfConstruction)
+        {
+            if (DateOfConstruction > DateTime.Today)
+            {
+                MessageBox.Show("Дата постройки не может быть позже сегодняшней даты!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На пустоту в комбобоксе Владельца
+        public bool ValidateNotEmptyRU(string fieldValue)
+        {
+            if (string.IsNullOrWhiteSpace(fieldValue))
+            {
+                MessageBox.Show("Выберите Владелец/проживающий");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На площадь
+        private bool ValidateQuantity(string quantity)
+        {
+            if (int.TryParse(quantity, out int quantityInt))
+            {
+                if (quantityInt < 10 || quantityInt > 1000)
+                {
+                    MessageBox.Show("Площадь должна быть не меньше 10 и не больше 1000");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Укажите корректное значение!");
+                return false;
+            }
+
+            return true;
+        }
+
+
+        #endregion
+
+        #region На кол-во комнат
+        private bool ValidationNumOfRooms(string quantity)
+        {
+            string pattern = @"^\d+$";
+
+
+            if (int.TryParse(quantity, out int quantityInt))
+            {
+                if (!Regex.IsMatch(quantityInt.ToString(), pattern) || quantityInt <= 0 || quantityInt > 50)
+                {
+                    MessageBox.Show("Количество комнат не должно быть меньше 0 и больше 50 ");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Введите кол-во комнат!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
     }
 }
 

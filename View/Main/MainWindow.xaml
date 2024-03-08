@@ -236,6 +236,13 @@
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem x:Name="AddResidentialUnits" Header="Добавить" Click="AddResidentialUnits_Click"/>
+                                    <MenuItem x:Name="DeleteResidentialUnits" Header="Удалить" Click="DeleteResidentialUnits_Click"/>
+                                    <MenuItem x:Name="EditResidentialUnits" Header="Изменить" Click="EditResidentialUnits_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
                         </DataGrid>
 
                         <DataGrid Margin="10 0 10 0" 

@@ -260,6 +260,24 @@ namespace ResidentialRegistration.View.Main
             }
         }
         #endregion
+
+        #region Работа с таблицей "ResidentialUnits"
+        private void AddResidentialUnits_Click(object sender, RoutedEventArgs e)
+        {
+            AddResidentialUnitsForm addResidentialUnitsForm = new AddResidentialUnitsForm(ResidentialUnitGrid);
+            addResidentialUnitsForm.ShowDialog();
+        }
+
+        private void DeleteResidentialUnits_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditResidentialUnits_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
     }
 
 }

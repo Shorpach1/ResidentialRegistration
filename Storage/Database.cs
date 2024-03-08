@@ -17,7 +17,7 @@ namespace ResidentialRegistration.Storage
         private string selectDocuments = $"select IssuedDocuments.DocumentID, DocumentTypes.DocumentType, IssuedDocuments.DocumentNumber, IssuedDocuments.DateOfIssue," +
             $"IssuedDocuments.IssuingAuthority, Citizens.CitizenID, IssuedDocuments.AdditionalInformation from IssuedDocuments, Citizens, DocumentTypes where IssuedDocuments.CitizenID = Citizens.CitizenID AND IssuedDocuments.DocumentTypeID = DocumentTypes.DocumentTypeID";
         
-        private string selectResidentialUnit = $"select ResidentialUnits.UnitID, ResidentialUnits.Address, ResidentialUnits.Area, ResidentialUnits.NumberOfRooms, Citizens.LastName, ResidentialUnits.ifOwner ,ResidentialUnits.DateOfConstruction, " +
+        private string selectResidentialUnit = $"select ResidentialUnits.UnitID, ResidentialUnits.Address, ResidentialUnits.Area, ResidentialUnits.NumberOfRooms, Citizens.LastName, ResidentialUnits.isOwner ,ResidentialUnits.DateOfConstruction, " +
             $"ResidentialUnits.OtherCharacteristics from ResidentialUnits, Citizens where ResidentialUnits.CitizenID = Citizens.CitizenID";
         
         private string selectAAS = $"select AddressArrivalSheets.AddressArrivalSheetID, Citizens.LastName, AddressArrivalSheets.DepartureAddress," +
@@ -223,6 +223,15 @@ namespace ResidentialRegistration.Storage
         {
             Update($"UPDATE IssuedDocuments SET DocumentTypeID = '{dtId.id}', DocumentNumber = '{docNum}', DateOfIssue = '{dateOfIssue.ToString("yyyy-MM-dd")}',IssuingAuthority = N'{issuingAuthority}', " +
                 $"CitizenID = '{citId.id}', AdditionalInformation = N'{other}' WHERE DocumentID = {id}");
+        }
+        #endregion
+
+        #region Работа с таблицей "ResidentialUnits"
+        public void CreateResidentialUnit(string address, string area, string numOfRooms, CBDocumentType citId, DateTime date, string ifOwner, string other)
+        {
+            string query = $"INSERT INTO ResidentialUnits (Address, Area, NumberOfRooms, CitizenID, isOwner, DateOfConstruction, OtherCharacteristics) VALUES " +
+                $"( N'{address}', '{Convert.ToInt32(area)}', '{Convert.ToInt32(numOfRooms)}', '{citId.id}', N'{ifOwner}', '{date.ToString("yyyy-MM-dd")}', N'{other}')";
+            Update(query);
         }
         #endregion
     }
