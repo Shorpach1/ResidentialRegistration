@@ -225,8 +225,8 @@
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="Площадь" Width="*"  Binding="{Binding Area}"/>
                                 <DataGridTextColumn Header="Кол-во комнат" Width="*"  Binding="{Binding NumberOfRooms}"/>
-                                <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding LastName}"/>
-                                <DataGridTextColumn Header="Роль" Width="*"  Binding="{Binding ifOwner}"/>
+                                <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
+                                <DataGridTextColumn Header="Роль" Width="*"  Binding="{Binding isOwner}"/>
                                 <DataGridTextColumn Header="Дата постройки" Width="*"  Binding="{Binding DateOfConstruction, StringFormat=dd.MM.yyyy}"/>
                                 <DataGridTextColumn Header="Прочие хар-ки" Width="*"  Binding="{Binding OtherCharacteristics}">
                                     <DataGridTextColumn.ElementStyle>
@@ -261,16 +261,23 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID ад.листка" Width="100" Binding="{Binding AddressArrivalSheetID}" />
                                 <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
-                                <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding ArrivalDepartureAddress}"/>
-                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfArrivalDeparture, StringFormat=dd.MM.yyyy}"/>
-                                <DataGridTextColumn Header="Примечание" Width="*"  Binding="{Binding Notes}">
+                                <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding DepartureAddress}"/>
+                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfDeparture, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Регистрационный орган" Width="*"  Binding="{Binding RegistrationAuthority}">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="ToolTip" Value="{Binding Notes}" />
+                                            <Setter Property="ToolTip" Value="{Binding RegistrationAuthority}" />
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem x:Name="AddAAS" Header="Добавить" Click="AddAAS_Click"/>
+                                    <MenuItem x:Name="DeleteAAS" Header="Удалить" Click="DeleteAAS_Click"/>
+                                    <MenuItem x:Name="EditAAS" Header="Изменить" Click="EditAAS_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
                         </DataGrid>
 
                         <DataGrid Margin="10 0 10 0"  

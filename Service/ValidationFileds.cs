@@ -150,6 +150,33 @@ namespace ResidentialRegistration.Service
         }
         #endregion
 
+        #region Проверка при добавлении ад. листка прибыития
+        public bool ValidationAASAdd(CBDocumentType citId, string address, DateTime date, string regAuth)
+        {
+            if (!ValidateAddress(address))
+            {
+                return false;
+            }
+
+            if (!ValiditonDateOfDepature(date))
+            {
+                return false;
+            }
+
+            if (!ValidateRegistrationAuthority(regAuth))
+            {
+                return false;
+            }
+
+            if (!ValidationComboBoxItemC(citId))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
         #region На схожесть поролей
         public bool ValidationTwoPasswords(string firstPassword, string secondPassword)
         {
@@ -362,7 +389,7 @@ namespace ResidentialRegistration.Service
         #region На адрес
         public bool ValidateAddress(string address)
         {
-            string addressPattern = @"^[a-zA-Zа-яА-Я0-9\s.,!?-]{3,50}$";
+            string addressPattern = @"^[a-zA-Zа-яА-ЯёЁ0-9\s.,!?-]{3,50}$";
 
             if (!Regex.IsMatch(address, addressPattern) || address.Length > 50)
             {
@@ -440,6 +467,34 @@ namespace ResidentialRegistration.Service
             else
             {
                 MessageBox.Show("Введите кол-во комнат!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На дату прибытия
+        public bool ValiditonDateOfDepature(DateTime DateOfDepature)
+        {
+            if (DateOfDepature > DateTime.Today)
+            {
+                MessageBox.Show("Дата прибытия не может быть позже сегодняшней даты!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На регистрациооный орган
+        public bool ValidateRegistrationAuthority(string regAuth)
+        {
+            string regAuthPattern = @"^[a-zA-Zа-яА-ЯёЁ0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(regAuth, regAuthPattern) || regAuth.Length > 50)
+            {
+                MessageBox.Show("Некорректное наименование регистрационного органа. Минимальная длина - 3 символа, максимальная - 50!");
                 return false;
             }
 

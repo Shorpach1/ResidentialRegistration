@@ -100,6 +100,9 @@
     <Compile Include="Storage\AuthManager.cs" />
     <Compile Include="Storage\DarkTheme.cs" />
     <Compile Include="Storage\Database.cs" />
+    <Compile Include="View\AddPage\AddAASForm.xaml.cs">
+      <DependentUpon>AddAASForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddPage\AddCitizenForm.xaml.cs">
       <DependentUpon>AddCitizenForm.xaml</DependentUpon>
     </Compile>
@@ -119,15 +122,25 @@
     <Compile Include="View\Auth\RegForm.xaml.cs">
       <DependentUpon>RegForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditPage\EditAASForm.xaml.cs">
+      <DependentUpon>EditAASForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditPage\EditCititzenForm.xaml.cs">
       <DependentUpon>EditCititzenForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditPage\EditIssuedDocumentsForm.xaml.cs">
       <DependentUpon>EditIssuedDocumentsForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditPage\EditResidentialUnitsForm.xaml.cs">
+      <DependentUpon>EditResidentialUnitsForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Main\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\AddPage\AddAASForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddPage\AddCitizenForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,11 +161,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditPage\EditAASForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditPage\EditCititzenForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditPage\EditIssuedDocumentsForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditPage\EditResidentialUnitsForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

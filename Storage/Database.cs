@@ -3,6 +3,7 @@ using ResidentialRegistration.Service;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 using System.Windows.Controls;
 
 namespace ResidentialRegistration.Storage
@@ -13,18 +14,18 @@ namespace ResidentialRegistration.Storage
         SqlConnection sqlConnection = new SqlConnection(connection);
 
         private string selectCitizen = $"select * from Citizens";
-        
+
         private string selectDocuments = $"select IssuedDocuments.DocumentID, DocumentTypes.DocumentType, IssuedDocuments.DocumentNumber, IssuedDocuments.DateOfIssue," +
             $"IssuedDocuments.IssuingAuthority, Citizens.CitizenID, IssuedDocuments.AdditionalInformation from IssuedDocuments, Citizens, DocumentTypes where IssuedDocuments.CitizenID = Citizens.CitizenID AND IssuedDocuments.DocumentTypeID = DocumentTypes.DocumentTypeID";
-        
-        private string selectResidentialUnit = $"select ResidentialUnits.UnitID, ResidentialUnits.Address, ResidentialUnits.Area, ResidentialUnits.NumberOfRooms, Citizens.LastName, ResidentialUnits.isOwner ,ResidentialUnits.DateOfConstruction, " +
+
+        private string selectResidentialUnit = $"select ResidentialUnits.UnitID, ResidentialUnits.Address, ResidentialUnits.Area, ResidentialUnits.NumberOfRooms, Citizens.CitizenID, ResidentialUnits.isOwner ,ResidentialUnits.DateOfConstruction, " +
             $"ResidentialUnits.OtherCharacteristics from ResidentialUnits, Citizens where ResidentialUnits.CitizenID = Citizens.CitizenID";
-        
-        private string selectAAS = $"select AddressArrivalSheets.AddressArrivalSheetID, Citizens.LastName, AddressArrivalSheets.DepartureAddress," +
+
+        private string selectAAS = $"select AddressArrivalSheets.AddressArrivalSheetID, Citizens.CitizenID, AddressArrivalSheets.DepartureAddress," +
             $"AddressArrivalSheets.DateOfDeparture, AddressArrivalSheets.RegistrationAuthority from AddressArrivalSheets, Citizens where AddressArrivalSheets.CitizenID = Citizens.CitizenID";
-       
+
         private string selectTalon = $"select * from TalonToTheASoA";
-        
+
         private string selectADS = $"select AddressedDepartureSheet.AddressedDepartureSheetID, Citizens.LastName, AddressedDepartureSheet.DepartureAddress," +
             $"AddressedDepartureSheet.DateOfDeparture, AddressedDepartureSheet.AddressOfFormerResidence, AddressedDepartureSheet.PlaceOfArrival from AddressedDepartureSheet, Citizens " +
             $"where AddressedDepartureSheet.CitizenID = Citizens.CitizenID";
@@ -197,7 +198,7 @@ namespace ResidentialRegistration.Storage
         #endregion
 
         #region Изменение гражданина
-        public void EditCitizen(long id,string surname, string name, string middlename, DateTime dateOfBirth, string gender, string placeOfBirth, string other)
+        public void EditCitizen(long id, string surname, string name, string middlename, DateTime dateOfBirth, string gender, string placeOfBirth, string other)
         {
             Update($"UPDATE Citizens SET LastName = N'{surname}', FirstName = N'{name}', MiddleName = N'{middlename}', DateOfBirth = '{dateOfBirth.ToString("yyyy-MM-dd")}', Gender = N'{gender}', PlaceOfBirth = N'{placeOfBirth}', OtherPersonalData = N'{other}' " +
                 $"WHERE Citizens.CitizenID = {id}");
@@ -232,6 +233,38 @@ namespace ResidentialRegistration.Storage
             string query = $"INSERT INTO ResidentialUnits (Address, Area, NumberOfRooms, CitizenID, isOwner, DateOfConstruction, OtherCharacteristics) VALUES " +
                 $"( N'{address}', '{Convert.ToInt32(area)}', '{Convert.ToInt32(numOfRooms)}', '{citId.id}', N'{ifOwner}', '{date.ToString("yyyy-MM-dd")}', N'{other}')";
             Update(query);
+        }
+
+        public void DeleteResidentialUnits(DataRowView selectedRow)
+        {
+            Update($"DELETE FROM ResidentialUnits Where UnitID = {selectedRow.Row.ItemArray[0]}");
+        }
+
+        public void EditResidentialUnit(int id, string address, string area, string numOfRooms, CBDocumentType citId, DateTime date, string ifOwner, string other)
+        {
+            Update($"UPDATE ResidentialUnits SET Address = N'{address}', Area = {Convert.ToInt32(area)}, NumberOfRooms = {Convert.ToInt32(numOfRooms)}, CitizenID = '{citId.id}', isOwner = N'{ifOwner}', " +
+                $"DateOfConstruction = '{date.ToString("yyyy-MM-dd")}', OtherCharacteristics = N'{other}' WHERE UnitID = {id}");
+        }
+        #endregion
+
+        #region Работа с таблицей "AAS"
+        public void CreateAAS(CBDocumentType citId, string address, DateTime date, string regAuth)
+        {
+            string query = $"INSERT INTO AddressArrivalSheets (CitizenID, DepartureAddress, DateOfDeparture, RegistrationAuthority) VALUES " +
+                $"('{citId.id}', N'{address}', '{date.ToString("yyyy-MM-dd")}', N'{regAuth}')";
+            Update(query);           
+        }
+
+        public void DeleteAAS(DataRowView selectedRow)
+        {
+            Update($"DELETE FROM AddressArrivalSheets Where AddressArrivalSheetID = {selectedRow.Row.ItemArray[0]}");
+        }
+
+        public void EditAAS(int id, CBDocumentType citId, string address, DateTime date, string regAuth)
+        {
+            string query = $"UPDATE AddressArrivalSheets SET CitizenID = '{citId.id}', DepartureAddress = N'{address}', DateOfDeparture = '{date.ToString("yyyy-MM-dd")}', RegistrationAuthority = N'{regAuth}' WHERE AddressArrivalSheetID = {id}";
+            Update(query);
+
         }
         #endregion
     }

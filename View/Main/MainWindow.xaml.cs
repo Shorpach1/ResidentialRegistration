@@ -270,12 +270,90 @@ namespace ResidentialRegistration.View.Main
 
         private void DeleteResidentialUnits_Click(object sender, RoutedEventArgs e)
         {
+            DataRowView selectedResidentialUnits = ResidentialUnitGrid.SelectedItem as DataRowView;
+            if (selectedResidentialUnits != null)
+            {
+                try
+                {
+                    database.DeleteResidentialUnits(selectedResidentialUnits);
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Удаление невозможно. Удалите связанные данные с этим гражданином!");
+                    return;
+                }
 
+                database.ReadResidentialUnit(ResidentialUnitGrid);
+            }
+            else
+            {
+                MessageBox.Show("Выберите поле для удаления!");
+            }
         }
 
         private void EditResidentialUnits_Click(object sender, RoutedEventArgs e)
         {
+            
+            var selectedRow = ResidentialUnitGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                EditResidentialUnitsForm editResidentialUnitsForm = new EditResidentialUnitsForm(ResidentialUnitGrid, Convert.ToInt32(selectedRow.Row.ItemArray[0]), Convert.ToString(selectedRow.Row.ItemArray[1]),
+                    Convert.ToString(selectedRow.Row.ItemArray[2]), Convert.ToString(selectedRow.Row.ItemArray[3]), Convert.ToInt32(selectedRow.Row.ItemArray[4]),
+                    Convert.ToString(selectedRow.Row.ItemArray[5]), Convert.ToString(selectedRow.Row.ItemArray[6]), Convert.ToString(selectedRow.Row.ItemArray[7]));
+                editResidentialUnitsForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для редактирования", "Ошибка", MessageBoxButton.OK);
+            }
+        }
 
+
+        #endregion
+
+        #region Работа с таблицей AAS
+        private void AddAAS_Click(object sender, RoutedEventArgs e)
+        {
+            AddAASForm addAASForm = new AddAASForm(AddressArrivalSheetsGrid);
+            addAASForm.ShowDialog();
+        }
+
+        private void DeleteAAS_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedAAS = AddressArrivalSheetsGrid.SelectedItem as DataRowView;
+            if (selectedAAS != null)
+            {
+                try
+                {
+                    database.DeleteAAS(selectedAAS);
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Удаление невозможно. Удалите связанные данные с этим гражданином!");
+                    return;
+                }
+
+                database.ReadAAS(AddressArrivalSheetsGrid);
+            }
+            else
+            {
+                MessageBox.Show("Выберите поле для удаления!");
+            }
+        }
+
+        private void EditAAS_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedRow = AddressArrivalSheetsGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                EditAASForm editAASForm = new EditAASForm(AddressArrivalSheetsGrid, Convert.ToInt32(selectedRow.Row.ItemArray[0]), Convert.ToInt32(selectedRow.Row.ItemArray[1]),
+                    Convert.ToString(selectedRow.Row.ItemArray[2]), Convert.ToString(selectedRow.Row.ItemArray[3]), Convert.ToString(selectedRow.Row.ItemArray[4]));
+                editAASForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для редактирования", "Ошибка", MessageBoxButton.OK);
+            }
         }
         #endregion
     }
