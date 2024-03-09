@@ -103,6 +103,9 @@
     <Compile Include="View\AddPage\AddAASForm.xaml.cs">
       <DependentUpon>AddAASForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddPage\AddADSForm.xaml.cs">
+      <DependentUpon>AddADSForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddPage\AddCitizenForm.xaml.cs">
       <DependentUpon>AddCitizenForm.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,9 @@
     </Compile>
     <Compile Include="View\AddPage\AddResidentialUnitsForm.xaml.cs">
       <DependentUpon>AddResidentialUnitsForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddPage\AddTalonToTheASoAForm.xaml.cs">
+      <DependentUpon>AddTalonToTheASoAForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Auth\LoginForm.xaml.cs">
       <DependentUpon>LoginForm.xaml</DependentUpon>
@@ -125,6 +131,9 @@
     <Compile Include="View\EditPage\EditAASForm.xaml.cs">
       <DependentUpon>EditAASForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditPage\EditADSForm.xaml.cs">
+      <DependentUpon>EditADSForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditPage\EditCititzenForm.xaml.cs">
       <DependentUpon>EditCititzenForm.xaml</DependentUpon>
     </Compile>
@@ -134,10 +143,17 @@
     <Compile Include="View\EditPage\EditResidentialUnitsForm.xaml.cs">
       <DependentUpon>EditResidentialUnitsForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditPage\EditTalonToTheASoAForm.xaml.cs">
+      <DependentUpon>EditTalonToTheASoAForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Main\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\AddPage\AddAASForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddPage\AddADSForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -153,6 +169,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddPage\AddTalonToTheASoAForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Auth\LoginForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -165,6 +185,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditPage\EditADSForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditPage\EditCititzenForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditPage\EditResidentialUnitsForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditPage\EditTalonToTheASoAForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

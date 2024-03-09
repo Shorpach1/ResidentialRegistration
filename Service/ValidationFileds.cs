@@ -150,7 +150,7 @@ namespace ResidentialRegistration.Service
         }
         #endregion
 
-        #region Проверка при добавлении ад. листка прибыития
+        #region Проверка при добавлении ад. листка прибытия
         public bool ValidationAASAdd(CBDocumentType citId, string address, DateTime date, string regAuth)
         {
             if (!ValidateAddress(address))
@@ -169,6 +169,55 @@ namespace ResidentialRegistration.Service
             }
 
             if (!ValidationComboBoxItemC(citId))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region Проверка при добавлении ад. листка убытия
+        public bool ValidationADSAdd(CBDocumentType citId, string address, DateTime date, string addressFR, string placeOfArrival)
+        {
+            if (!ValidateAddressDep(address))
+            {
+                return false;
+            }
+
+            if (!ValiditonDateOfDepature(date))
+            {
+                return false;
+            }
+
+            if (!ValidateAddressFR(addressFR))
+            {
+                return false;
+            }
+
+            if (!ValidationComboBoxItemC(citId))
+            {
+                return false;
+            }
+
+            if (!ValidatePlaceOfArrival(placeOfArrival))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Проверка при добавлении талона к ад. листку прибытия
+        public bool ValidationTalonAASAdd(string purpose, string arrivalDate)
+        {
+
+            if (!ValidateNotEmptyPurpise(purpose))
+            {
+                return false;
+            }
+
+            if (!ValidateTerm(arrivalDate))
             {
                 return false;
             }
@@ -495,6 +544,86 @@ namespace ResidentialRegistration.Service
             if (!Regex.IsMatch(regAuth, regAuthPattern) || regAuth.Length > 50)
             {
                 MessageBox.Show("Некорректное наименование регистрационного органа. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region ADS
+
+        #region На адрес прибытия
+        public bool ValidateAddressDep(string address)
+        {
+            string addressPattern = @"^[a-zA-Zа-яА-ЯёЁ0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(address, addressPattern) || address.Length > 50)
+            {
+                MessageBox.Show("Некорректный адрес прибытия. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region На прошлое место жительства
+        public bool ValidateAddressFR(string address)
+        {
+            string addressPattern = @"^[a-zA-Zа-яА-ЯёЁ0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(address, addressPattern) || address.Length > 50)
+            {
+                MessageBox.Show("Некорректный адрес прошлого места жительства. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region На место убытия
+        public bool ValidatePlaceOfArrival(string address)
+        {
+            string addressPattern = @"^[a-zA-Zа-яА-ЯёЁ0-9\s.,!?-]{3,50}$";
+
+            if (!Regex.IsMatch(address, addressPattern) || address.Length > 50)
+            {
+                MessageBox.Show("Некорректный адрес прошлого места жительства. Минимальная длина - 3 символа, максимальная - 50!");
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+        #endregion
+
+        #region На пустоту в комбобоксе цели
+        public bool ValidateNotEmptyPurpise(string fieldValue)
+        {
+            if (string.IsNullOrWhiteSpace(fieldValue))
+            {
+                MessageBox.Show("Выберите цель");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region на срок
+        public bool ValidateTerm(string termValue)
+        {
+            // Паттерн для проверки, что введенное значение является целым числом от 2 до 60
+            string pattern = @"^(?:[2-9]|[1-5][0-9]|60)$";
+
+            // Проверяем, соответствует ли введенное значение паттерну
+            if (!Regex.IsMatch(termValue, pattern))
+            {
+                MessageBox.Show("Срок должен быть целым числом от 2 до 60 месяцев");
                 return false;
             }
 

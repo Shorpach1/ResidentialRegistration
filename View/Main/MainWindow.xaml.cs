@@ -40,6 +40,16 @@ namespace ResidentialRegistration.View.Main
                 if (!isAdmin)
                 {
                     RegFormBtn.Visibility = Visibility.Collapsed;
+                    DeleteCitizen.IsEnabled = false;
+                    EditCitizen.IsEnabled = false;
+                    DeleteIssuedDocuments.IsEnabled = false;
+                    EditIssuedDocuments.IsEnabled = false;
+                    DeleteResidentialUnits.IsEnabled = false;
+                    EditResidentialUnits.IsEnabled = false;
+                    DeleteAAS.IsEnabled = false;
+                    EditAAS.IsEnabled = false;
+                    EditADS.IsEnabled = false;
+                    DeleteADS.IsEnabled = false;
                 }
                 else
                 {
@@ -349,6 +359,99 @@ namespace ResidentialRegistration.View.Main
                 EditAASForm editAASForm = new EditAASForm(AddressArrivalSheetsGrid, Convert.ToInt32(selectedRow.Row.ItemArray[0]), Convert.ToInt32(selectedRow.Row.ItemArray[1]),
                     Convert.ToString(selectedRow.Row.ItemArray[2]), Convert.ToString(selectedRow.Row.ItemArray[3]), Convert.ToString(selectedRow.Row.ItemArray[4]));
                 editAASForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для редактирования", "Ошибка", MessageBoxButton.OK);
+            }
+        }
+        #endregion
+
+        #region Работа с таблицей ADS
+        private void AddADS_Click(object sender, RoutedEventArgs e)
+        {
+            AddADSForm addADSForm = new AddADSForm(AddressedDepartureSheetGrid);
+            addADSForm.ShowDialog();
+        }
+
+        private void DeleteADS_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedADS = AddressedDepartureSheetGrid.SelectedItem as DataRowView;
+            if (selectedADS != null)
+            {
+                try
+                {
+                    database.DeleteADS(selectedADS);
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Удаление невозможно. Удалите связанные данные с этим гражданином!");
+                    return;
+                }
+
+                database.ReadADS(AddressedDepartureSheetGrid);
+            }
+            else
+            {
+                MessageBox.Show("Выберите поле для удаления!");
+            }
+        }
+
+        private void EditADS_Click(object sender, RoutedEventArgs e)
+        {
+           
+            var selectedRow = AddressedDepartureSheetGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                EditADSForm editADSForm = new EditADSForm(AddressedDepartureSheetGrid, Convert.ToInt32(selectedRow.Row.ItemArray[0]), Convert.ToInt32(selectedRow.Row.ItemArray[1]),
+                    Convert.ToString(selectedRow.Row.ItemArray[2]), Convert.ToString(selectedRow.Row.ItemArray[3]), Convert.ToString(selectedRow.Row.ItemArray[4]), Convert.ToString(selectedRow.Row.ItemArray[5]));
+                editADSForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для редактирования", "Ошибка", MessageBoxButton.OK);
+            }
+        }
+        #endregion
+
+        #region Работа с таблицей "TalonToTheASoA"
+        private void AddTalonToTheASoA_Click(object sender, RoutedEventArgs e)
+        {
+            AddTalonToTheASoAForm addTalonToTheASoAForm = new AddTalonToTheASoAForm(TalonToTheASoAGrid);
+            addTalonToTheASoAForm.ShowDialog();
+        }
+
+        private void DeleteTalonToTheASoA_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedTalonToTheASoA = TalonToTheASoAGrid.SelectedItem as DataRowView;
+            if (selectedTalonToTheASoA != null)
+            {
+                try
+                {
+                    database.DeleteTalonToTheASoA(selectedTalonToTheASoA);
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Удаление невозможно. Удалите связанные данные с этим гражданином!");
+                    return;
+                }
+
+                database.ReadTalon(TalonToTheASoAGrid);
+            }
+            else
+            {
+                MessageBox.Show("Выберите поле для удаления!");
+            }
+        }
+
+        private void EditTalonToTheASoA_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedRow = TalonToTheASoAGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                EditTalonToTheASoAForm editTalonToTheASoAForm = new EditTalonToTheASoAForm(TalonToTheASoAGrid, Convert.ToInt32(selectedRow.Row.ItemArray[0]), Convert.ToString(selectedRow.Row.ItemArray[1]),
+                    Convert.ToString(selectedRow.Row.ItemArray[2]), Convert.ToString(selectedRow.Row.ItemArray[3]), Convert.ToString(selectedRow.Row.ItemArray[4]));
+                editTalonToTheASoAForm.ShowDialog();
             }
             else
             {

@@ -296,8 +296,8 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID ад.листка" Width="100" Binding="{Binding AddressedDepartureSheetID}" />
                                 <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
-                                <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding ArrivalDepartureAddress}"/>
-                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfArrivalDeparture, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding DepartureAddress}"/>
+                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfDeparture, StringFormat=dd.MM.yyyy}"/>
                                 <DataGridTextColumn Header="Прошлое место жительства" Width="*"  Binding="{Binding AddressOfFormerResidence}">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -305,14 +305,21 @@
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Примечание" Width="*"  Binding="{Binding Notes}">
+                                <DataGridTextColumn Header="Куда убыл" Width="*"  Binding="{Binding PlaceOfArrival}">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="ToolTip" Value="{Binding Notes}" />
+                                            <Setter Property="ToolTip" Value="{Binding PlaceOfArrival}" />
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem x:Name="AddADS" Header="Добавить" Click="AddADS_Click"/>
+                                    <MenuItem x:Name="DeleteADS" Header="Удалить" Click="DeleteADS_Click"/>
+                                    <MenuItem x:Name="EditADS" Header="Изменить" Click="EditADS_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
                         </DataGrid>
 
                         <DataGrid Margin="10 0 10 0" 
@@ -335,6 +342,13 @@
                                 <DataGridTextColumn Header="Другая причина" Width="*"  Binding="{Binding AnotherReason}"/>
                                 <DataGridTextColumn Header="Срок" Width="*"  Binding="{Binding ArrivalDate}"/>
                             </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem x:Name="AddTalonToTheASoA" Header="Добавить" Click="AddTalonToTheASoA_Click"/>
+                                    <MenuItem x:Name="DeleteTalonToTheASoA" Header="Удалить" Click="DeleteTalonToTheASoA_Click"/>
+                                    <MenuItem x:Name="EditTalonToTheASoA" Header="Изменить" Click="EditTalonToTheASoA_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
                         </DataGrid>
 
                     </Grid>

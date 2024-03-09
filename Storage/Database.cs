@@ -26,13 +26,15 @@ namespace ResidentialRegistration.Storage
 
         private string selectTalon = $"select * from TalonToTheASoA";
 
-        private string selectADS = $"select AddressedDepartureSheet.AddressedDepartureSheetID, Citizens.LastName, AddressedDepartureSheet.DepartureAddress," +
+        private string selectADS = $"select AddressedDepartureSheet.AddressedDepartureSheetID, Citizens.CitizenID, AddressedDepartureSheet.DepartureAddress," +
             $"AddressedDepartureSheet.DateOfDeparture, AddressedDepartureSheet.AddressOfFormerResidence, AddressedDepartureSheet.PlaceOfArrival from AddressedDepartureSheet, Citizens " +
             $"where AddressedDepartureSheet.CitizenID = Citizens.CitizenID";
 
         private string selectCitizenName = $"select CitizenID, LastName  + ' ' +  FirstName + ' ' +  MiddleName from Citizens";
 
         private string selectDocumentType = $"select * from DocumentTypes";
+
+        private string selectAddressArrivalSheetID = $"select AddressArrivalSheetID from AddressArrivalSheets";
 
         public void Connection()
         {
@@ -161,6 +163,10 @@ namespace ResidentialRegistration.Storage
             ComboBoxToTableDT(selectCitizenName, box);
         }
 
+        public void ReadTalonIDToCombobox(ComboBox box)
+        {
+            ComboBoxToTableTalon(selectAddressArrivalSheetID, box);
+        }
         public void ComboBoxToTableDT(string query, ComboBox box)
         {
             Connection();
@@ -174,6 +180,22 @@ namespace ResidentialRegistration.Storage
                 cbdt.id = reader.GetInt32(0);
                 cbdt.name = reader.GetString(1).ToString();
                 box.Items.Add(cbdt);
+            }
+            reader.Close();
+            Connection();
+        }
+
+        public void ComboBoxToTableTalon(string query, ComboBox box)
+        {
+            Connection();
+            SqlCommand command = new SqlCommand(query, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+
+            box.Items.Clear();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0); // Получаем идентификатор и добавляем его в ComboBox
+                box.Items.Add(id);
             }
             reader.Close();
             Connection();
@@ -263,6 +285,46 @@ namespace ResidentialRegistration.Storage
         public void EditAAS(int id, CBDocumentType citId, string address, DateTime date, string regAuth)
         {
             string query = $"UPDATE AddressArrivalSheets SET CitizenID = '{citId.id}', DepartureAddress = N'{address}', DateOfDeparture = '{date.ToString("yyyy-MM-dd")}', RegistrationAuthority = N'{regAuth}' WHERE AddressArrivalSheetID = {id}";
+            Update(query);
+
+        }
+        #endregion
+
+        #region Работа с таблицей "ADS"
+        public void CreateADS(CBDocumentType citId, string address, DateTime date, string addressFR, string placeOfArrival)
+        {
+            string query = $"INSERT INTO AddressedDepartureSheet (CitizenID, DepartureAddress, DateOfDeparture, AddressOfFormerResidence, PlaceOfArrival) VALUES " +
+                $"('{citId.id}', N'{address}', '{date.ToString("yyyy-MM-dd")}', N'{addressFR}', N'{placeOfArrival}')";
+            Update(query);
+        }
+        public void DeleteADS(DataRowView selectedRow)
+        {
+            Update($"DELETE FROM AddressedDepartureSheet Where AddressedDepartureSheetID = {selectedRow.Row.ItemArray[0]}");
+        }
+
+        public void EditADS(int id, CBDocumentType citId, string address, DateTime date, string addressFR, string placeOfArrival)
+        {
+            string query = $"UPDATE AddressedDepartureSheet SET CitizenID = '{citId.id}', DepartureAddress = N'{address}', DateOfDeparture = '{date.ToString("yyyy-MM-dd")}', AddressOfFormerResidence = N'{addressFR}', PlaceOfArrival = N'{placeOfArrival}' WHERE AddressedDepartureSheetID = {id}";
+            Update(query);
+
+        }
+        #endregion
+
+        #region Работа с таблицей "TalonToTheASoA"
+        public void CreateTalonToTheASoA(int addId, string purpose, string anotherReason, string ArrivalDate)
+        {
+            string query = $"INSERT INTO TalonToTheASoA (AddressArrivalSheetID, PurposeOfArrival, AnotherReason, ArrivalDate) VALUES " +
+                $"('{addId}', N'{purpose}', N'{anotherReason}', N'{Convert.ToInt32(ArrivalDate)}')";
+            Update(query);
+        }
+        public void DeleteTalonToTheASoA(DataRowView selectedRow)
+        {
+            Update($"DELETE FROM TalonToTheASoA Where TalonID = {selectedRow.Row.ItemArray[0]}");
+        }
+
+        public void EditTalonToTheASoA(int id, int addId, string purpose, string anotherReason, string ArrivalDate)
+        {
+            string query = $"UPDATE TalonToTheASoA SET AddressArrivalSheetID = '{addId}', PurposeOfArrival = N'{purpose}', AnotherReason = N'{anotherReason}', ArrivalDate = N'{Convert.ToInt32(ArrivalDate)}' WHERE TalonID = {id}";
             Update(query);
 
         }
