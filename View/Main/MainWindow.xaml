@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1400"
+        Title="MainWindow" Height="980" Width="1400"
         Background="{x:Null}"
         AllowsTransparency="True"
         WindowStyle="None"
@@ -262,7 +262,7 @@
                                 <DataGridTextColumn Header="ID ад.листка" Width="100" Binding="{Binding AddressArrivalSheetID}" />
                                 <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
                                 <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding DepartureAddress}"/>
-                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfDeparture, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Дата прибытия" Width="170"  Binding="{Binding DateOfDeparture, StringFormat=dd.MM.yyyy}"/>
                                 <DataGridTextColumn Header="Регистрационный орган" Width="*"  Binding="{Binding RegistrationAuthority}">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -297,7 +297,7 @@
                                 <DataGridTextColumn Header="ID ад.листка" Width="100" Binding="{Binding AddressedDepartureSheetID}" />
                                 <DataGridTextColumn Header="Гражданин" Width="*"  Binding="{Binding CitizenID}"/>
                                 <DataGridTextColumn Header="Адрес убытия" Width="*"  Binding="{Binding DepartureAddress}"/>
-                                <DataGridTextColumn Header="Дата убытия" Width="170"  Binding="{Binding DateOfDeparture, StringFormat=dd.MM.yyyy}"/>
+                                <DataGridTextColumn Header="Дата прибытия" Width="170"  Binding="{Binding DateOfDeparture, StringFormat=dd.MM.yyyy}"/>
                                 <DataGridTextColumn Header="Прошлое место жительства" Width="*"  Binding="{Binding AddressOfFormerResidence}">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -353,7 +353,8 @@
 
                     </Grid>
                 </Grid>
-
+                <TextBox Margin="110 20 0 20" x:Name="txtSearch" Width="400" FontSize="18" materialDesign:HintAssist.Hint="Поиск" BorderThickness="2" 
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Left" TextChanged="txtSearch_TextChanged"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

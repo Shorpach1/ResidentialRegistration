@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System;
 using ResidentialRegistration.View.EditPage;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace ResidentialRegistration.View.Main
 {
@@ -19,13 +21,15 @@ namespace ResidentialRegistration.View.Main
     {
 
         private Database database = new Database();
-        private bool _isContextMenuOpen = false;
+        private DataGrid SearchGrid;
 
         public MainWindow()
         {
             InitializeComponent();
             UpdateTheme();
             themeToggle.IsChecked = DarkTheme.isDarkTheme;
+
+            SearchGrid = CitizenGrid;
 
             database.ReadCitizen(CitizenGrid);
             database.ReadDocuments(IssuedDocumentsGrid);
@@ -169,6 +173,7 @@ namespace ResidentialRegistration.View.Main
             AddressArrivalSheetsGrid.Visibility = Visibility.Collapsed;
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
+            SearchGrid = CitizenGrid;
         }
 
         private void btnIssuedDocumentsGrid_Click(object sender, RoutedEventArgs e)
@@ -179,6 +184,7 @@ namespace ResidentialRegistration.View.Main
             AddressArrivalSheetsGrid.Visibility = Visibility.Collapsed;
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
+            SearchGrid = IssuedDocumentsGrid;
         }
 
         private void btnResidentialUnitGrid_Click(object sender, RoutedEventArgs e)
@@ -189,6 +195,7 @@ namespace ResidentialRegistration.View.Main
             AddressArrivalSheetsGrid.Visibility = Visibility.Collapsed;
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
+            SearchGrid = ResidentialUnitGrid;
         }
 
         private void btnAddressArrivalSheetsGrid_Click(object sender, RoutedEventArgs e)
@@ -199,6 +206,7 @@ namespace ResidentialRegistration.View.Main
             AddressArrivalSheetsGrid.Visibility = Visibility.Visible;
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
+            SearchGrid = AddressArrivalSheetsGrid;
         }
 
         private void btnAddressedDepartureSheetGrid_Click(object sender, RoutedEventArgs e)
@@ -209,6 +217,7 @@ namespace ResidentialRegistration.View.Main
             AddressArrivalSheetsGrid.Visibility = Visibility.Collapsed;
             AddressedDepartureSheetGrid.Visibility = Visibility.Visible;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
+            SearchGrid = AddressedDepartureSheetGrid;
         }
 
         private void btnTalonToTheASoAGrid_Click(object sender, RoutedEventArgs e)
@@ -219,6 +228,7 @@ namespace ResidentialRegistration.View.Main
             AddressArrivalSheetsGrid.Visibility = Visibility.Collapsed;
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Visible;
+            SearchGrid = TalonToTheASoAGrid;
         }
 
 
@@ -456,6 +466,55 @@ namespace ResidentialRegistration.View.Main
             else
             {
                 MessageBox.Show("Не выбрана строка для редактирования", "Ошибка", MessageBoxButton.OK);
+            }
+        }
+        #endregion
+
+
+        #region Поисковик
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = txtSearch.Text.ToLower();
+
+            foreach (var item in SearchGrid.Items)
+            {
+                DataGridRow row = (DataGridRow)SearchGrid.ItemContainerGenerator.ContainerFromItem(item);
+                if (row != null)
+                {
+                    bool rowHighlighted = false;
+
+                    // Если поле поиска пустое, сбрасываем цвет строки на обычный белый
+                    if (string.IsNullOrEmpty(searchText))
+                    {
+                        row.Background = Brushes.White;
+                        continue; // Переходим к следующей строке без проверки содержимого ячеек
+                    }
+
+                    foreach (DataGridColumn column in SearchGrid.Columns)
+                    {
+                        if (column is System.Windows.Controls.DataGridTextColumn)
+                        {
+                            string cellValue = ((Binding)((System.Windows.Controls.DataGridTextColumn)column).Binding).Path.Path;
+                            var cellContent = column.GetCellContent(row);
+                            if (cellContent != null && cellValue != "")
+                            {
+                                string cellText = ((TextBlock)cellContent).Text.ToLower();
+                                if (cellText.Contains(searchText))
+                                {
+                                    row.Background = Brushes.LightYellow;
+                                    rowHighlighted = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // Если строка не была выделена, сбрасываем цвет фона
+                    if (!rowHighlighted)
+                    {
+                        row.Background = Brushes.White;
+                    }
+                }
             }
         }
         #endregion
