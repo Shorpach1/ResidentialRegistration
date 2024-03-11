@@ -11,6 +11,7 @@ using System;
 using ResidentialRegistration.View.EditPage;
 using System.Windows.Data;
 using System.Windows.Media;
+using ResidentialRegistration.Service;
 
 namespace ResidentialRegistration.View.Main
 {
@@ -174,6 +175,9 @@ namespace ResidentialRegistration.View.Main
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
             SearchGrid = CitizenGrid;
+
+            dpFilter.Visibility = Visibility.Visible;
+            FilterBtn.Visibility = Visibility.Visible;
         }
 
         private void btnIssuedDocumentsGrid_Click(object sender, RoutedEventArgs e)
@@ -185,6 +189,9 @@ namespace ResidentialRegistration.View.Main
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
             SearchGrid = IssuedDocumentsGrid;
+
+            dpFilter.Visibility = Visibility.Visible;
+            FilterBtn.Visibility = Visibility.Visible;
         }
 
         private void btnResidentialUnitGrid_Click(object sender, RoutedEventArgs e)
@@ -196,6 +203,9 @@ namespace ResidentialRegistration.View.Main
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
             SearchGrid = ResidentialUnitGrid;
+
+            dpFilter.Visibility = Visibility.Visible;
+            FilterBtn.Visibility = Visibility.Visible;
         }
 
         private void btnAddressArrivalSheetsGrid_Click(object sender, RoutedEventArgs e)
@@ -207,6 +217,9 @@ namespace ResidentialRegistration.View.Main
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
             SearchGrid = AddressArrivalSheetsGrid;
+
+            dpFilter.Visibility = Visibility.Visible;
+            FilterBtn.Visibility = Visibility.Visible;
         }
 
         private void btnAddressedDepartureSheetGrid_Click(object sender, RoutedEventArgs e)
@@ -218,6 +231,9 @@ namespace ResidentialRegistration.View.Main
             AddressedDepartureSheetGrid.Visibility = Visibility.Visible;
             TalonToTheASoAGrid.Visibility = Visibility.Collapsed;
             SearchGrid = AddressedDepartureSheetGrid;
+
+            dpFilter.Visibility = Visibility.Visible;
+            FilterBtn.Visibility = Visibility.Visible;
         }
 
         private void btnTalonToTheASoAGrid_Click(object sender, RoutedEventArgs e)
@@ -229,6 +245,9 @@ namespace ResidentialRegistration.View.Main
             AddressedDepartureSheetGrid.Visibility = Visibility.Collapsed;
             TalonToTheASoAGrid.Visibility = Visibility.Visible;
             SearchGrid = TalonToTheASoAGrid;
+
+            dpFilter.Visibility = Visibility.Collapsed;
+            FilterBtn.Visibility = Visibility.Collapsed;
         }
 
 
@@ -470,7 +489,6 @@ namespace ResidentialRegistration.View.Main
         }
         #endregion
 
-
         #region Поисковик
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -518,6 +536,46 @@ namespace ResidentialRegistration.View.Main
             }
         }
         #endregion
+
+        #region Фильтрация
+        private void FilterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in SearchGrid.Items)
+            {
+                var row = SearchGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                bool isVisible = false;
+
+                for (int i = 0; i < SearchGrid.Columns.Count; i++)
+                {
+                    var cellContent = SearchGrid.Columns[i].GetCellContent(item);
+                    if (cellContent is TextBlock textBlock && textBlock.Text.ToLower().Contains(dpFilter.Text))
+                    {
+                        isVisible = true;
+                        break;
+                    }
+                }
+
+                if (row != null)
+                {
+                    row.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
+        #endregion
+
+        private void WordCitizen_Click(object sender, RoutedEventArgs e)
+        {
+            WordRegistrationСard wordRegistrationСard = new WordRegistrationСard();
+            var selectedRow = CitizenGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                wordRegistrationСard.ReplaceFieldsFromDatabase(Convert.ToInt32(selectedRow.Row.ItemArray[0]));
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для печати", "Ошибка", MessageBoxButton.OK);
+            }
+        }
     }
 
 }

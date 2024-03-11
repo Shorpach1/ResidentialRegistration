@@ -35,7 +35,7 @@
                         
                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                                    ToolTip="MaterialDesignFloatingActionLightButton" 
+                                    ToolTip="Граждане" 
                                     Height="70" 
                                     Width="70"
                                     x:Name="btnCitizenGrid"
@@ -46,7 +46,7 @@
                             </Button>
                             
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                                    ToolTip="MaterialDesignFloatingActionLightButton" 
+                                    ToolTip="Документы" 
                                     Height="70" 
                                     Width="70"
                                     x:Name="btnIssuedDocumentsGrid"
@@ -56,7 +56,7 @@
                             </Button>
 
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                                    ToolTip="MaterialDesignFloatingActionLightButton" 
+                                    ToolTip="Жилые помещения" 
                                     Height="70" 
                                     Width="70"
                                     x:Name="btnResidentialUnitGrid"
@@ -66,7 +66,7 @@
                             </Button>
 
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                                    ToolTip="MaterialDesignFloatingActionLightButton" 
+                                    ToolTip="Ад. листки прибытия" 
                                     Height="70" 
                                     Width="70"
                                     x:Name="btnAddressArrivalSheetsGrid"
@@ -76,7 +76,7 @@
                             </Button>
 
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                                    ToolTip="MaterialDesignFloatingActionLightButton" 
+                                    ToolTip="Адрестные лиски убытия" 
                                     Height="70" 
                                     Width="70"
                                     x:Name="btnAddressedDepartureSheetGrid"
@@ -86,7 +86,7 @@
                             </Button>
                             
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                                    ToolTip="MaterialDesignFloatingActionLightButton" 
+                                    ToolTip="Талоны" 
                                     Height="70" 
                                     Width="70"
                                     x:Name="btnTalonToTheASoAGrid"
@@ -148,6 +148,7 @@
                                     <MenuItem x:Name="AddCitizen" Header="Добавить" Click="AddCitizen_Click"/>
                                     <MenuItem x:Name="DeleteCitizen" Header="Удалить" Click="DeleteCitizen_Click"/>
                                     <MenuItem x:Name="EditCitizen" Header="Изменить" Click="EditCitizen_Click"/>
+                                    <MenuItem x:Name="WordCitizen" Header="Печать" Click="WordCitizen_Click"/>
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>
@@ -355,6 +356,10 @@
                 </Grid>
                 <TextBox Margin="110 20 0 20" x:Name="txtSearch" Width="400" FontSize="18" materialDesign:HintAssist.Hint="Поиск" BorderThickness="2" 
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Left" TextChanged="txtSearch_TextChanged"/>
+                <DatePicker x:Name="dpFilter" Width="300" Margin="0 -100 300 0" materialDesign:HintAssist.Hint="Фильтрация по датам" BorderThickness="2"
+             Style="{StaticResource MaterialDesignOutlinedDatePicker}" FontSize="18"  materialDesign:DatePickerAssist.OutlinedBorderInactiveThickness="2"  HorizontalAlignment="Right"/>
+                <Button Margin="0 -100 130 0 " x:Name="FilterBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        Height="53" Width="150" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Фильтр" Click="FilterBtn_Click" HorizontalAlignment="Right"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>
