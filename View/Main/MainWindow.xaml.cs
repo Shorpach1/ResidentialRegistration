@@ -576,6 +576,34 @@ namespace ResidentialRegistration.View.Main
                 MessageBox.Show("Не выбрана строка для печати", "Ошибка", MessageBoxButton.OK);
             }
         }
+
+        private void WordResidentialUnits_Click(object sender, RoutedEventArgs e)
+        {
+            WordApartmentCard wordApartmentCard = new WordApartmentCard();
+            var selectedRow = ResidentialUnitGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                wordApartmentCard.ReplaceFieldsFromDatabase(Convert.ToInt32(selectedRow.Row.ItemArray[4]), Convert.ToString(selectedRow.Row.ItemArray[1]));
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для печати", "Ошибка", MessageBoxButton.OK);
+            }
+        }
+
+        private void WordAAS_Click(object sender, RoutedEventArgs e)
+        {
+            WordAddressArrivalSheet wordAddressArrivalSheet = new WordAddressArrivalSheet();
+            var selectedRow = AddressArrivalSheetsGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                wordAddressArrivalSheet.ReplaceFieldsFromDatabase(Convert.ToInt32(selectedRow.Row.ItemArray[0]));
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для печати", "Ошибка", MessageBoxButton.OK);
+            }
+        }
     }
 
 }

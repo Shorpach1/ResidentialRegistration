@@ -1,23 +1,27 @@
-﻿using System;
-using System.IO;
-using Microsoft.Office.Interop.Word;
-using System.Data.SqlClient;
+﻿using Microsoft.Office.Interop.Word;
 using ResidentialRegistration.Storage;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ResidentialRegistration.Service
 {
-    internal class WordRegistrationСard
+    internal class WordAddressArrivalSheet
     {
         Database database = new Database();
         private readonly Application _wordApplication;
         private readonly Document _document;
 
-        public WordRegistrationСard()
+        public WordAddressArrivalSheet()
         {
             // Создаем экземпляр приложения Word
             _wordApplication = new Application();
             // Загружаем шаблон Word документа
-            string templatePath = @"D:\CourseWork\ResidentialRegistration\Resource\RegistrationCard.docx";
+            string templatePath = @"D:\CourseWork\ResidentialRegistration\Resource\AddressArrivalSheet.docx";
             _document = _wordApplication.Documents.Open(templatePath);
         }
 
@@ -27,7 +31,10 @@ namespace ResidentialRegistration.Service
             string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Residential_Registration_Database;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
 
             // Напишите SQL-запрос для получения данных из базы данных
-            string query = "select CitizenID, LastName, FirstName, MiddleName, DateOfBirth, PlaceOfBirth from Citizens where CitizenID = @CitizenID";
+            string query = "select AddressArrivalSheets.AddressArrivalSheetID, Citizens.LastName, Citizens.FirstName, Citizens.MiddleName, Citizens.DateOfBirth, " +
+                "Citizens.Gender, Citizens.PlaceOfBirth, ResidentialUnits.Address, AddressArrivalSheets.DateOfDeparture, AddressArrivalSheets.DepartureAddress, " +
+                "AddressArrivalSheets.RegistrationAuthority from Citizens, ResidentialUnits, AddressArrivalSheets where Citizens.CitizenID = ResidentialUnits.CitizenID and " +
+                "Citizens.CitizenID = AddressArrivalSheets.CitizenID and AddressArrivalSheets.AddressArrivalSheetID = @ID;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -38,7 +45,7 @@ namespace ResidentialRegistration.Service
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     // Добавляем параметр для передачи выбранного ID
-                    command.Parameters.AddWithValue("@CitizenID", selectedID);
+                    command.Parameters.AddWithValue("@ID", selectedID);
 
                     // Выполняем запрос и получаем результат
                     SqlDataReader reader = command.ExecuteReader();
@@ -46,24 +53,34 @@ namespace ResidentialRegistration.Service
                     if (reader.Read())
                     {
                         // Получаем данные из результата запроса
-                        string citizenID = reader["CitizenID"].ToString();
+                        string addressArrivalSheetID = reader["AddressArrivalSheetID"].ToString();
                         string lastName = reader["LastName"].ToString();
                         string firstName = reader["FirstName"].ToString();
                         string middleName = reader["MiddleName"].ToString();
                         string dateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd.MM.yyyy");
+                        string gender = reader["Gender"].ToString();
                         string placeOfBirth = reader["PlaceOfBirth"].ToString();
+                        string address = reader["Address"].ToString();
+                        string dateOfDeparture = Convert.ToDateTime(reader["DateOfDeparture"]).ToString("dd.MM.yyyy");
+                        string departureAddress = reader["DepartureAddress"].ToString();
+                        string registrationAuthority = reader["RegistrationAuthority"].ToString();
 
-                        string fileName = $"Карточка Регистрации №{selectedID}.docx";
+                        string fileName = $"Адресной листок прибытия №{selectedID}.docx";
 
                         // Заменяем метки в шаблоне на данные из базы данных
-                        ReplaceField("{CitizenID}", citizenID);
+                        ReplaceField("{AddressArrivalSheetID}", addressArrivalSheetID);
                         ReplaceField("{LastName}", lastName);
                         ReplaceField("{FirstName}", firstName);
                         ReplaceField("{MiddleName}", middleName);
                         ReplaceField("{DateOfBirth}", dateOfBirth);
+                        ReplaceField("{Gender}", gender);
                         ReplaceField("{PlaceOfBirth}", placeOfBirth);
+                        ReplaceField("{Address}", address);
+                        ReplaceField("{DateOfDeparture}", dateOfDeparture);
+                        ReplaceField("{DepartureAddress}", departureAddress);
+                        ReplaceField("{RegistrationAuthority}", registrationAuthority);
 
-                        SaveAndCloseDocument($"D:\\CourseWork\\ResidentialRegistration\\Output\\RegistrationCard\\{fileName}");
+                        SaveAndCloseDocument($"D:\\CourseWork\\ResidentialRegistration\\Output\\AddressArrivalSheets\\{fileName}");
                     }
                 }
             }

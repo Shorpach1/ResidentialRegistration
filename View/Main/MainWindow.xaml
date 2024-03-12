@@ -242,6 +242,7 @@
                                     <MenuItem x:Name="AddResidentialUnits" Header="Добавить" Click="AddResidentialUnits_Click"/>
                                     <MenuItem x:Name="DeleteResidentialUnits" Header="Удалить" Click="DeleteResidentialUnits_Click"/>
                                     <MenuItem x:Name="EditResidentialUnits" Header="Изменить" Click="EditResidentialUnits_Click"/>
+                                    <MenuItem x:Name="WordResidentialUnits" Header="Печать" Click="WordResidentialUnits_Click"/>
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>
@@ -277,6 +278,7 @@
                                     <MenuItem x:Name="AddAAS" Header="Добавить" Click="AddAAS_Click"/>
                                     <MenuItem x:Name="DeleteAAS" Header="Удалить" Click="DeleteAAS_Click"/>
                                     <MenuItem x:Name="EditAAS" Header="Изменить" Click="EditAAS_Click"/>
+                                    <MenuItem x:Name="WordAAS" Header="Печать" Click="WordAAS_Click"/>
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>
