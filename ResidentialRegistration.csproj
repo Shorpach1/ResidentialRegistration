@@ -98,6 +98,7 @@
     <Compile Include="Service\PasswordEncoder.cs" />
     <Compile Include="Service\ValidationFileds.cs" />
     <Compile Include="Service\WordAddressArrivalSheet.cs" />
+    <Compile Include="Service\WordAddressDepatureSheet.cs" />
     <Compile Include="Service\WordApartmentCard.cs" />
     <Compile Include="Service\WordRegistrationСard.cs" />
     <Compile Include="Storage\AuthManager.cs" />
@@ -237,6 +238,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resource\AddressArrivalSheet.docx" />
+    <None Include="Resource\AddressDepatureSheet.docx" />
     <None Include="Resource\ApartmentCard.docx" />
     <None Include="Resource\RegistrationCard.docx" />
   </ItemGroup>
@@ -289,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Output\AddressArrivalSheets\" />
+    <Folder Include="Output\AddressDepatureSheets\" />
     <Folder Include="Output\ApartmentCard\" />
     <Folder Include="Output\RegistrationCard\" />
   </ItemGroup>

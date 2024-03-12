@@ -321,6 +321,7 @@
                                     <MenuItem x:Name="AddADS" Header="Добавить" Click="AddADS_Click"/>
                                     <MenuItem x:Name="DeleteADS" Header="Удалить" Click="DeleteADS_Click"/>
                                     <MenuItem x:Name="EditADS" Header="Изменить" Click="EditADS_Click"/>
+                                    <MenuItem x:Name="WordADS" Header="Печать" Click="WordADS_Click"/>
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>

@@ -604,6 +604,20 @@ namespace ResidentialRegistration.View.Main
                 MessageBox.Show("Не выбрана строка для печати", "Ошибка", MessageBoxButton.OK);
             }
         }
+
+        private void WordADS_Click(object sender, RoutedEventArgs e)
+        {
+            WordAddressDepatureSheet wordAddressDepatureSheet = new WordAddressDepatureSheet();
+            var selectedRow = AddressedDepartureSheetGrid.SelectedItem as DataRowView;
+            if (selectedRow != null)
+            {
+                wordAddressDepatureSheet.ReplaceFieldsFromDatabase(Convert.ToInt32(selectedRow.Row.ItemArray[0]));
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка для печати", "Ошибка", MessageBoxButton.OK);
+            }
+        }
     }
 
 }
